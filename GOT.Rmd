@@ -3,9 +3,9 @@ title: "Network Analysis on Game of Thrones"
 output: html_notebook
 ---
 
-In this article, I will be exploring and doing network analysis of the families of major characters from Game of Thrones.
+In this article, I will be exploring and doing network analysis of the families of major characters from Game of Thrones which is a very famous TV series.
 
-If you are a big Game of thrones fan then you should know that surprisingly, we learn that House Stark (specifically Ned and Sansa) and House Lannister (especially Tyrion) are the most important family connections in Game of Thrones; they also connect many of the storylines and are central parts of the Series.
+If you are a big Game of thrones fan then you should know that surprisingly, __House Stark__ (specifically Ned and Sansa) and __House Lannister__ (especially Tyrion) are the most important family connections in Game of Thrones; they also connect many of the storylines and are central parts of the Series.
 
 
 ##What is a Network ?
@@ -17,9 +17,14 @@ A network in this context is a graph of interconnected nodes/vertices. Nodes can
 
 
 Network analysis can e.g. be used to explore relationships in social or professional networks. In such cases, we would typically ask questions like:
+
 1)How many connections does each person have?
-2)Who is the most connected (i.e."famous","Dominating","influential" or “important”) person?
+
+2)Who is the most connected (i.e."famous","Dominating","influential" or 
+“important”) person?
+
 3)Are there clusters of tightly connected people?
+
 4)Are there a few key objects that connect clusters of people?
 etc.
 
@@ -45,6 +50,7 @@ require(ggthemes)
 require(igraph)
 require(statnet)
 ```
+
 
 
 Now loading the Game of Thrones Datasets
@@ -90,6 +96,7 @@ pred$name <- gsub("[[:punct:]]", "", pred$name)
 ```{r}
 child_of <- data.frame(name = pred$name[grepl("son of | daughter of", pred$name)],
                      stringsAsFactors = FALSE)
+
 child_of$child_of <- ifelse(grepl("daughter", child_of$name), paste(gsub("(.* daughter of )(.*)", "\\2", child_of$name), 
   gsub("(.* )(.*)( daughter of.*)", "\\2", child_of$name)), paste(gsub("(.* son of )(.*)", "\\2", child_of$name), 
   gsub("(.* )(.*)( son of.*)", "\\2", child_of$name)))
@@ -97,4 +104,15 @@ child_of$child_of <- ifelse(grepl("daughter", child_of$name), paste(gsub("(.* da
 child_of[child_of$name == "Ulf son of Umar", "child_of"] <- "Umar"
 
 ```
+
+
+
+Performing a Left Join between the Child_of and Pred Datasets for joining both the tables Together i.e Merging.
+
+```{r}
+#Joining the 2 tables by common "name" column
+pred<-left_join(pred, child_of, by = "name")
+
+```
+
 
