@@ -78,8 +78,23 @@ pred$spouse <- as.character(pred$spouse)
 pred$house <- ifelse(is.na(pred$house) & grepl("Targaryen", pred$name), "House Targaryen", pred$house)
 pred$house <- ifelse(is.na(pred$house) & grepl("Stark", pred$name), "House Stark", pred$house)
 
-#to perform replacement and pattern matching
+#gsub() to perform replacement and pattern matching
 pred$name <- gsub("[[:punct:]]", "", pred$name)
+
+```
+
+
+####Creating a new Child_of Dataframe which will contain the Parents and the child's name.
+
+
+```{r}
+child_of <- data.frame(name = pred$name[grepl("son of | daughter of", pred$name)],
+                     stringsAsFactors = FALSE)
+child_of$child_of <- ifelse(grepl("daughter", child_of$name), paste(gsub("(.* daughter of )(.*)", "\\2", child_of$name), 
+  gsub("(.* )(.*)( daughter of.*)", "\\2", child_of$name)), paste(gsub("(.* son of )(.*)", "\\2", child_of$name), 
+  gsub("(.* )(.*)( son of.*)", "\\2", child_of$name)))
+
+child_of[child_of$name == "Ulf son of Umar", "child_of"] <- "Umar"
 
 ```
 
