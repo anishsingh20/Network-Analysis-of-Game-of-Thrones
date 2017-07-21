@@ -496,6 +496,122 @@ pred[pred$name == "Rodrik Greyjoy", "father"] <- "Balon Greyjoy"
 pred[pred$name == "Rodrik Greyjoy", "mother"] <- "Alannys Harlaw"
 
 
+#-------
+
+pred[pred$name == "Maron Greyjoy", "father"] <- "Balon Greyjoy"
+pred[pred$name == "Maron Greyjoy", "mother"] <- "Alannys Harlaw"
+
+pred[pred$name == "Urrigon Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Urrigon Greyjoy", "mother"] <- "Lady of House Sunderly"
+
+pred[pred$name == "Aeron Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Aeron Greyjoy", "mother"] <- "Lady of House Sunderly"
+
+pred[pred$name == "Robin Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Robin Greyjoy", "mother"] <- "Lady of House Piper"
+
+pred[pred$name == "Ryman Frey", "mother"] <- "Corenna Swann"
+
+pred[pred$name == "Walda Frey daughter of Edwyn", "father"] <- "Edwyn Frey"
+pred[pred$name == "Walda Frey daughter of Edwyn", "mother"] <- "Janyce Hunter"
+
+pred[pred$name == "Aegon Frey son of Stevron", "father"] <- "Stevron Frey"
+pred[pred$name == "Aegon Frey son of Stevron", "mother"] <- "Jeyne Lydden"
+
+pred[pred$name == "Cleos Frey", "father"] <- "Emmon Frey"
+pred[pred$name == "Cleos Frey", "mother"] <- "Genna Lannister"
+
+pred[pred$name == "Tywin Frey", "father"] <- "Cleos Frey"
+pred[pred$name == "Tywin Frey", "mother"] <- "Jeyne Darry"
+
+pred[pred$name == "Willem Frey", "father"] <- "Cleos Frey"
+pred[pred$name == "Willem Frey", "mother"] <- "Jeyne Darry"
+
+pred[pred$name == "Lyonel Frey", "father"] <- "Emmon Frey"
+pred[pred$name == "Lyonel Frey", "mother"] <- "Genna Lannister"
+
+pred[pred$name == "Tion Frey", "father"] <- "Emmon Frey"
+pred[pred$name == "Tion Frey", "mother"] <- "Genna Lannister"
+
+pred[pred$name == "Walder Frey son of Emmon", "father"] <- "Emmon Frey"
+pred[pred$name == "Walder Frey son of Emmon", "mother"] <- "Genna Lannister"
+
+pred[pred$name == "Amerei Frey", "father"] <- "Merrett Frey"
+pred[pred$name == "Amerei Frey", "mother"] <- "Mariya Darry"
+
+pred[pred$name == "Walda Frey daughter of Merrett", "father"] <- "Merrett Frey"
+pred[pred$name == "Walda Frey daughter of Merrett", "mother"] <- "Mariya Darry"
+
+pred[pred$name == "Walder Frey son of Merrett", "father"] <- "Merrett Frey"
+pred[pred$name == "Walder Frey son of Merrett", "mother"] <- "Mariya Darry"
+
+pred[pred$name == "Marissa Frey", "father"] <- "Merrett Frey"
+pred[pred$name == "Marissa Frey", "mother"] <- "Mariya Darry"
+
+pred[pred$name == "Merrett Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Merrett Frey", "mother"] <- "Amarei Crakehall"
+
+pred[pred$name == "Roslin Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Roslin Frey", "mother"] <- "Bethany Rosby"
+
+pred[pred$name == "Olyvar Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Olyvar Frey", "mother"] <- "Bethany Rosby"
+
+pred[pred$name == "Willamen Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Willamen Frey", "mother"] <- "Bethany Rosby"
+
+pred[pred$name == "Benfrey Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Benfrey Frey", "mother"] <- "Bethany Rosby"
+
+pred[pred$name == "Perwyn Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Perwyn Frey", "mother"] <- "Bethany Rosby"
+
+pred[, c(6, 12:13, 15, 34)] %>% arrange(name)
+pred[grep("Perwyn", pred$name), c(6, 12:13, 15, 34)] %>% arrange(name)
+add <- pred[pred$name == "Willam Stark", ]
+add[, "spouse"] <- "Lyanna Glover"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Sansa Stark", ]
+add[, "spouse"] <- "Ramsay Snow"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Cregan Stark", ]
+add[, "spouse"] <- "Lynara Stark"
+pred <- rbind(pred, add)
+
+pred[pred$name == "Steffon Baratheon", "spouse"] <- "Cassana Baratheon"
+pred[pred$name == "Tommen Baratheon", "spouse"] <- "Margaery Tyrell"
+pred[pred$name == "Joffrey Baratheon", "spouse"] <- "Margaery Tyrell"
+
+pred[pred$name == "Jason Lannister", "spouse"] <- "Alys Stackspear"
+
+add <- pred[pred$name == "Jason Lannister", ]
+add[, "spouse"] <- "Marla Prester"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Gerold Lannister", ]
+add[, "spouse"] <- "Rohanne Webber"
+pred <- rbind(pred, add)
+
+pred[pred$name == "Aerys II Targaryen", "spouse"] <- "Rhaella Targaryen"
+
+add <- pred[pred$name == "Daenerys Targaryen", ]
+add[, "spouse"] <- "Hizdahr zo Loraq"
+pred <- rbind(pred, add)
+
+pred[pred$name == "Hizdahr zo Loraq", "spouse"] <- "Daenerys Targaryen"
+
+add <- pred[pred$name == "Margaery Tyrell", ]
+add[, "spouse"] <- "Joffrey Baratheon"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Margaery Tyrell", ]
+add[, "spouse"] <- "Tommen Baratheon"
+pred <- rbind(pred, add)
+
+pred[pred$name == "Elyn Norridge", "spouse"] <- "Luthor Tyrell son of Moryn"
+
 ```
 
 
