@@ -349,6 +349,151 @@ add <- pred[pred$name == "Jaehaerys II Targaryen", ]
 add[, "name"] <- "Shaera Targaryen"
 pred <- rbind(pred, add)
 
+#------------
+
+
+pred[pred$name == "Duncan Targaryen", "father"] <- "Aegon V Targaryen"
+pred[pred$name == "Duncan Targaryen", "mother"] <- "Betha Blackwood"
+
+pred[pred$name == "Rhaelle Targaryen", "father"] <- "Aegon V Targaryen"
+pred[pred$name == "Rhaelle Targaryen", "mother"] <- "Betha Blackwood"
+
+pred[pred$name == "Theodore Tyrell", "father"] <- "Luthor Tyrell son of Moryn"
+pred[pred$name == "Theodore Tyrell", "mother"] <- "Elyn Norridge"
+
+pred[pred$name == "Mace Tyrell", "father"] <- "Luthor Tyrell"
+pred[pred$name == "Mace Tyrell", "mother"] <- "Olenna Redwyne"
+
+pred[pred$name == "Luthor Tyrell", "father"] <- "Unknown father Tyrell"
+pred[pred$name == "Luthor Tyrell", "mother"] <- "Unknown mother Tyrell"
+
+pred[pred$name == "Moryn Tyrell", "father"] <- "Unknown father Tyrell"
+pred[pred$name == "Moryn Tyrell", "mother"] <- "Unknown mother Tyrell"
+
+pred[pred$name == "Luthor Tyrell son of Moryn", "father"] <- "Moryn Tyrell"
+pred[pred$name == "Luthor Tyrell son of Moryn", "child_of"] <- NA
+
+pred[pred$name == "Garlan Tyrell", "father"] <- "Mace Tyrell"
+pred[pred$name == "Garlan Tyrell", "mother"] <- "Alerie Hightower"
+
+pred[pred$name == "Willas Tyrell", "father"] <- "Mace Tyrell"
+pred[pred$name == "Willas Tyrell", "mother"] <- "Alerie Hightower"
+
+pred[pred$name == "Loras Tyrell", "father"] <- "Mace Tyrell"
+pred[pred$name == "Loras Tyrell", "mother"] <- "Alerie Hightower"
+
+pred[pred$name == "Margaery Tyrell", "father"] <- "Mace Tyrell"
+pred[pred$name == "Margaery Tyrell", "mother"] <- "Alerie Hightower"
+
+pred[pred$name == "Mina Tyrell", "father"] <- "Luthor Tyrell"
+pred[pred$name == "Mina Tyrell", "mother"] <- "Olenna Redwyne"
+
+pred[pred$name == "Hobber Redwyne", "mother"] <- "Mina Tyrell"
+pred[pred$name == "Hobber Redwyne", "father"] <- "Paxter Redwyne"
+
+pred[pred$name == "Horas Redwyne", "mother"] <- "Mina Tyrell"
+pred[pred$name == "Horas Redwyne", "father"] <- "Paxter Redwyne"
+
+pred[pred$name == "Olene Tyrell", "mother"] <- "Elyn Norridge"
+pred[pred$name == "Olene Tyrell", "father"] <- "Luthor Tyrell son of Moryn"
+
+pred[pred$name == "Medwick Tyrell", "mother"] <- "Elyn Norridge"
+pred[pred$name == "Medwick Tyrell", "father"] <- "Luthor Tyrell son of Moryn"
+
+pred[pred$name == "Elinor Tyrell", "mother"] <- "Lia Serry"
+pred[pred$name == "Elinor Tyrell", "father"] <- "Theodore Tyrell"
+
+pred[pred$name == "Luthor Tyrell son of Theodore", "mother"] <- "Lia Serry"
+pred[pred$name == "Luthor Tyrell son of Theodore", "father"] <- "Theodore Tyrell"
+pred[pred$name == "Luthor Tyrell son of Theodore", "child_of"] <- NA
+
+pred[pred$name == "Oberyn Martell", "mother"] <- "Princess of Dorne"
+pred[pred$name == "Doran Martell", "mother"] <- "Princess of Dorne"
+pred[pred$name == "Mors Martell brother of Doran", "mother"] <- "Princess of Dorne"
+pred[pred$name == "Elia Martell", "mother"] <- "Princess of Dorne"
+
+pred[pred$name == "Doran Martell", "house"] <- "House Martell"
+
+pred[pred$name == "Obara Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Nymeria Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Tyene Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Sarella Sand", "father"] <- "Oberyn Martell"
+
+pred[pred$name == "Elia Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Elia Sand", "mother"] <- "Ellaria Sand"
+
+pred[pred$name == "Obella Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Obella Sand", "mother"] <- "Ellaria Sand"
+
+pred[pred$name == "Dorea Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Obella Sand", "mother"] <- "Ellaria Sand"
+
+pred[pred$name == "Loreza Sand", "father"] <- "Oberyn Martell"
+pred[pred$name == "Loreza Sand", "mother"] <- "Ellaria Sand"
+
+pred[pred$name == "Aegon Targaryen son of Rhaegar", "father"] <- "Rhaegar Targaryen"
+pred[pred$name == "Aegon Targaryen son of Rhaegar", "mother"] <- "Elia Martell"
+pred[pred$name == "Aegon Targaryen son of Rhaegar", "child_of"] <- NA
+
+pred[pred$name == "Jon Arryn", "father"] <- "Jasper Arryn"
+pred[pred$name == "Alys Arryn", "father"] <- "Jasper Arryn"
+
+pred[pred$name == "Stevron Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Stevron Frey", "mother"] <- "Perra Royce"
+
+pred[pred$name == "Emmon Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Emmon Frey", "mother"] <- "Perra Royce"
+
+pred[pred$name == "Aenys Frey", "father"] <- "Walder Frey"
+pred[pred$name == "Aenys Frey", "mother"] <- "Perra Royce"
+
+pred[pred$name == "Ryman Frey", "father"] <- "Stevron Frey"
+pred[pred$name == "Ryman Arryn", "mother"] <- "Corenna Swan"
+
+pred[pred$name == "Edwyn Frey", "father"] <- "Ryman Frey"
+pred[pred$name == "Petyr Frey", "father"] <- "Ryman Frey"
+
+pred[pred$name == "Walda Frey", "father"] <- "Edwyn Frey"
+pred[pred$name == "Walda Frey", "mother"] <- "Janyce Hunter"
+
+pred[pred$name == "Perra Frey", "father"] <- "Petyr Frey"
+pred[pred$name == "Perra Frey", "mother"] <- "Mylenda Caron"
+
+pred[pred$name == "Maegelle Frey", "father"] <- "Stevron Frey"
+pred[pred$name == "Maegelle Frey", "mother"] <- "Jeyne Lydden"
+
+pred[pred$name == "Marianne Vance", "father"] <- "Dafyn Vance"
+pred[pred$name == "Marianne Vance", "mother"] <- "Maegelle Frey"
+
+pred[pred$name == "Walder Vance", "father"] <- "Dafyn Vance"
+pred[pred$name == "Walder Vance", "mother"] <- "Maegelle Frey"
+
+pred[pred$name == "Patrek Vance", "father"] <- "Dafyn Vance"
+pred[pred$name == "Patrek Vance", "mother"] <- "Maegelle Frey"
+
+pred[pred$name == "Walton Frey", "father"] <- "Stevron Frey"
+pred[pred$name == "Walton Frey", "mother"] <- "Marsella Weynwood"
+
+pred[pred$name == "Steffon Frey", "father"] <- "Walton Frey"
+pred[pred$name == "Steffon Frey", "mother"] <- "Deana Hardyng"
+
+pred[pred$name == "Bryan Frey", "father"] <- "Walton Frey"
+pred[pred$name == "Bryan Frey", "mother"] <- "Deana Hardyng"
+
+pred[pred$name == "Walda Frey daughter of Walton", "father"] <- "Walton Frey"
+pred[pred$name == "Walda Frey daughter of Walton", "mother"] <- "Deana Hardyng"
+
+pred[pred$name == "Harlon Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Harlon Greyjoy", "mother"] <- "Lady of House Stonetree"
+
+pred[pred$name == "Quenton Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Quenton Greyjoy", "mother"] <- "Lady of House Stonetree"
+
+pred[pred$name == "Donel Greyjoy", "father"] <- "Quellon Greyjoy"
+pred[pred$name == "Donel Greyjoy", "mother"] <- "Lady of House Stonetree"
+
+pred[pred$name == "Rodrik Greyjoy", "father"] <- "Balon Greyjoy"
+pred[pred$name == "Rodrik Greyjoy", "mother"] <- "Alannys Harlaw"
 
 
 ```
