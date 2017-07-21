@@ -26,6 +26,12 @@ etc.
 The answers can give us a lots of information and insights of lots of things and how people interact.
 
 
+-----------------------
+
+
+
+##Implementing It in R
+
 
 
 
@@ -50,11 +56,30 @@ battle<-read.csv("battles.csv")
 #Deaths on characters Dataset
 deaths<-read.csv("character-deaths.csv")
 
-#predictions dataset
+#pred dataset
+pred<-read.csv("character-pred.csv")
 
-pred<-read.csv("character-predictions.csv")
+```
 
 
+###Data Preprocessing and Transformation
+
+
+```{r}
+pred[pred == ""] <- NA
+#Converting Individual columns to Character data type
+pred$name <- as.character(pred$name)
+pred$house <- as.character(pred$house)
+pred$mother <- as.character(pred$mother)
+pred$father <- as.character(pred$father)
+pred$spouse <- as.character(pred$spouse)
+
+
+pred$house <- ifelse(is.na(pred$house) & grepl("Targaryen", pred$name), "House Targaryen", pred$house)
+pred$house <- ifelse(is.na(pred$house) & grepl("Stark", pred$name), "House Stark", pred$house)
+
+#to perform replacement and pattern matching
+pred$name <- gsub("[[:punct:]]", "", pred$name)
 
 ```
 
