@@ -654,3 +654,30 @@ pred[grep("Bethany", pred$name), c(6, 15:16)] %>% arrange(name)
 ```
 
 
+####Generating more New Dataframes
+
+
+```{r}
+#contains Mothers
+pred_2a <- pred[, c(6, 12)] %>%
+  na.omit()
+
+#Contains Fathers
+pred_2b <- pred[, c(6, 13)] %>%
+  na.omit()
+
+#Child of
+pred_3 <- pred[, c(6, 34)] %>%
+  na.omit()
+
+#Spouse Dataset
+pred_4 <- pred[, c(6, 16)] %>%
+  na.omit()
+
+net1 <- data.frame(source = c(pred_2a$mother, pred_2b$father, pred_3$child_of, pred_4$name),
+                  target = c(pred_2a$name, pred_2b$name, pred_3$name, pred_4$spouse),
+                  type = c(rep("mother", nrow(pred_2a)), rep("father", nrow(pred_2b)), rep("father/mother", nrow(pred_3)), rep("spouse", nrow(pred_4))))
+
+
+```
+
