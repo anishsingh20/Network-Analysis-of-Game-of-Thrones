@@ -198,15 +198,15 @@ pred[pred$name == "Rickard Stark", "father"] <- "Edwyle Stark"
 pred[pred$name == "Willam Stark", "mother"] <- "Lorra Royce"
 pred[pred$name == "Willam Stark", "father"] <- "Beron Stark"
 
-pred[pred$name == "Rodrik Stark son of Beron", "mother"] <- "Lorra Royce"
-pred[pred$name == "Rodrik Stark son of Beron", "father"] <- "Beron Stark"
-pred[pred$name == "Rodrik Stark son of Beron", "child_of"] <- NA
+pred[pred$name == "predrik Stark son of Beron", "mother"] <- "Lorra Royce"
+pred[pred$name == "predrik Stark son of Beron", "father"] <- "Beron Stark"
+pred[pred$name == "predrik Stark son of Beron", "child_of"] <- NA
 
 add <- pred[1, ]
 add[1, ] <- NA
 add$name <- "Lyarra Stark"
 add$mother <- "Arya Flint"
-add$father <- "Rodrik Stark"
+add$father <- "predrik Stark"
 add$spouse <- "Rickard Stark"
 pred <- rbind(pred, add)
 
@@ -219,8 +219,8 @@ pred <- rbind(pred, add)
 pred[pred$name == "Artos Stark", "mother"] <- "Lorra Royce"
 pred[pred$name == "Artos Stark", "father"] <- "Beron Stark"
 
-pred[pred$name == "Rodwell Stark", "mother"] <- "Alys Karstark"
-pred[pred$name == "Rodwell Stark", "father"] <- "Brandon Stark son of Cregan"
+pred[pred$name == "predwell Stark", "mother"] <- "Alys Karstark"
+pred[pred$name == "predwell Stark", "father"] <- "Brandon Stark son of Cregan"
 
 pred[pred$name == "Beron Stark", "mother"] <- "Alys Karstark"
 pred[pred$name == "Beron Stark", "father"] <- "Brandon Stark son of Cregan"
@@ -492,8 +492,8 @@ pred[pred$name == "Quenton Greyjoy", "mother"] <- "Lady of House Stonetree"
 pred[pred$name == "Donel Greyjoy", "father"] <- "Quellon Greyjoy"
 pred[pred$name == "Donel Greyjoy", "mother"] <- "Lady of House Stonetree"
 
-pred[pred$name == "Rodrik Greyjoy", "father"] <- "Balon Greyjoy"
-pred[pred$name == "Rodrik Greyjoy", "mother"] <- "Alannys Harlaw"
+pred[pred$name == "predrik Greyjoy", "father"] <- "Balon Greyjoy"
+pred[pred$name == "predrik Greyjoy", "mother"] <- "Alannys Harlaw"
 
 
 #-------
@@ -611,6 +611,45 @@ add[, "spouse"] <- "Tommen Baratheon"
 pred <- rbind(pred, add)
 
 pred[pred$name == "Elyn Norridge", "spouse"] <- "Luthor Tyrell son of Moryn"
+
+```
+
+
+Adding More Rows
+
+```{r}
+add <- pred[pred$name == "Jon Arryn", ]
+add[, "spouse"] <- "Lysa Arryn"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Jon Arryn", ]
+add[, "spouse"] <- "Rowena Arryn"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Stevron Frey", ]
+add[, "spouse"] <- "Marsella Waynwood"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Stevron Frey", ]
+add[, "spouse"] <- "Jeyne Lydden"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Lysa Arryn", ]
+add[, "spouse"] <- "Petyr Baelish"
+pred <- rbind(pred, add)
+
+pred[pred$name == "Quellon Greyjoy", "spouse"] <- "Lady of House Stonetree"
+
+add <- pred[pred$name == "Quellon Greyjoy", ]
+add[, "spouse"] <- "Lady of House Sunderly"
+pred <- rbind(pred, add)
+
+add <- pred[pred$name == "Quellon Greyjoy", ]
+add[, "spouse"] <- "Lady of House Piper"
+pred <- rbind(pred, add)
+
+pred[, c(6, 15:16)] %>% arrange(name)
+pred[grep("Bethany", pred$name), c(6, 15:16)] %>% arrange(name)
 
 ```
 
