@@ -113,6 +113,54 @@ Performing a Left Join between the Child_of and Pred Datasets for joining both t
 #Joining the 2 tables by common "name" column
 pred<-left_join(pred, child_of, by = "name")
 
+
+
+#Now I am manually adding the Mother and Father names for the given  children Names
+#Inside the brackets the first argument is the condition and second is the the name of the column for which you want to add value
+pred[pred$name == "Arya Stark", "mother"] <- "Catelyn Stark"
+pred[pred$name == "Arya Stark", "father"] <- "Eddard Stark"
+
+pred[pred$name == "Bran Stark", "mother"] <- "Catelyn Stark"
+pred[pred$name == "Bran Stark", "father"] <- "Eddard Stark"
+
+pred[pred$name == "Sansa Stark", "mother"] <- "Catelyn Stark"
+pred[pred$name == "Sansa Stark", "father"] <- "Eddard Stark"
+
+pred[pred$name == "Rickon Stark", "mother"] <- "Catelyn Stark"
+pred[pred$name == "Rickon Stark", "father"] <- "Eddard Stark"
+
+pred[pred$name == "Jon Snow", "mother"] <- "Lyanna Stark"
+pred[pred$name == "Jon Snow", "father"] <- "Eddard Stark"
+pred[pred$name == "Jon Snow", "child_of"] <- "Rhaegar Targaryen"
+
+pred[pred$name == "Theon Greyjoy", "mother"] <- "Alannys Harlaw"
+pred[pred$name == "Theon Greyjoy", "father"] <- "Balon Greyjoy"
+
+pred[pred$name == "Asha Greyjoy", "mother"] <- "Alannys Harlaw"
+pred[pred$name == "Asha Greyjoy", "father"] <- "Balon Greyjoy"
+
+pred[pred$name == "Tommen Baratheon", "house"] <- "House Baratheon/Lannister"
+pred[pred$name == "Balon Greyjoy", "house"] <- "House Greyjoy"
+
+pred[pred$name == "Balon Greyjoy", "mother"] <- "Lady of House Sunderly"
+
+pred[pred$name == "Victarion Greyjoy", "mother"] <- "Lady of House Sunderly"
+pred[pred$name == "Victarion Greyjoy", "father"] <- "Quellon Greyjoy"
+
+pred[pred$name == "Ramsay Snow", "father"] <- "Roose Bolton"
+
+pred[pred$name == "Myrcella Baratheon", "mother"] <- "Cersei Lannister"
+pred[pred$name == "Myrcella Baratheon", "father"] <- "Robert Baratheon"
+
+pred[pred$name == "Shireen Baratheon", "mother"] <- "Selyse Florent"
+pred[pred$name == "Shireen Baratheon", "father"] <- "Stannis Baratheon"
+
+pred[pred$name == "Renly Baratheon", "mother"] <- "Cassana Baratheon"
+pred[pred$name == "Renly Baratheon", "father"] <- "Steffon Baratheon"
+
+pred[pred$name == "Stannis Baratheon", "mother"] <- "Cassana Baratheon"
+
+
 ```
 
 
