@@ -3,7 +3,52 @@ title: "Network Analysis on Game of Thrones"
 output: html_notebook
 ---
 
+In this article, I will be exploring and doing network analysis of the families of major characters from Game of Thrones.
+
+If you are a big Game of thrones fan then you should know that surprisingly, we learn that House Stark (specifically Ned and Sansa) and House Lannister (especially Tyrion) are the most important family connections in Game of Thrones; they also connect many of the storylines and are central parts of the Series.
+
+
+##What is a Network ?
+
+A network in this context is a graph of interconnected nodes/vertices. Nodes can e.g. be people in a social network, genes in a co-expression network, etc. Nodes are connected via edges.
+
+
+##What can network analysis tell us?
+
+
+Network analysis can e.g. be used to explore relationships in social or professional networks. In such cases, we would typically ask questions like:
+1)How many connections does each person have?
+2)Who is the most connected (i.e. influential or “important”) person?
+3)Are there clusters of tightly connected people?
+4)Are there a few key players that connect clusters of people?
+etc.
+
+
+Loading the Required Packages
+
+```{r,warning=FALSE,message=FALSE}
+
+require(tidyverse)
+require(ggthemes)
+require(igraph)
+require(statnet)
+```
+
+
+Now loading the Game of Thrones Datasets
+
+```{r}
+#Loading the Datasets
+battle<-read.csv("battles.csv")
+
+#Deaths on characters Dataset
+deaths<-read.csv("character-deaths.csv")
+
+#predictions dataset
+
+pred<-read.csv("character-predictions.csv")
 
 
 
+```
 
