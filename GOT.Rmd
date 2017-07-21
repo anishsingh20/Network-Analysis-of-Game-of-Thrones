@@ -18,10 +18,16 @@ A network in this context is a graph of interconnected nodes/vertices. Nodes can
 
 Network analysis can e.g. be used to explore relationships in social or professional networks. In such cases, we would typically ask questions like:
 1)How many connections does each person have?
-2)Who is the most connected (i.e. influential or “important”) person?
+2)Who is the most connected (i.e."famous","Dominating","influential" or “important”) person?
 3)Are there clusters of tightly connected people?
-4)Are there a few key players that connect clusters of people?
+4)Are there a few key objects that connect clusters of people?
 etc.
+
+The answers can give us a lots of information and insights of lots of things and how people interact.
+
+
+
+
 
 
 Loading the Required Packages
