@@ -168,6 +168,46 @@ add$mother <- "Cassana Baratheon"
 add$father <- "Steffon Baratheon"
 add$spouse <- "Cersei Lannister"
 pred <- rbind(pred, add) #Binding Row wise to the dataset
+ 
+----------
+  
+#Adding some more values
+
+pred[pred$name == "Catelyn Stark", "mother"] <- "Minisa Whent"
+pred[pred$name == "Catelyn Stark", "father"] <- "Hoster Tully"
+
+pred[pred$name == "Edmure Tully", "mother"] <- "Minisa Whent"
+pred[pred$name == "Edmure Tully", "father"] <- "Hoster Tully"
+
+pred[pred$name == "Lysa Arryn", "mother"] <- "Minisa Whent"
+pred[pred$name == "Lysa Arryn", "father"] <- "Hoster Tully"
+
+pred[pred$name == "Robert Arryn", "mother"] <- "Lysa Arryn"
+pred[pred$name == "Robert Arryn", "father"] <- "Jon Arryn"
+
+pred[pred$name == "Lyanna Stark", "father"] <- "Rickard Stark"
+pred[pred$name == "Eddard Stark", "father"] <- "Rickard Stark"
+pred[pred$name == "Brandon Stark", "father"] <- "Rickard Stark"
+pred[pred$name == "Benjen Stark", "father"] <- "Rickard Stark"
+
+pred[pred$name == "Rickard Stark", "mother"] <- "Marna Locke"
+pred[pred$name == "Rickard Stark", "father"] <- "Edwyle Stark"
+
+pred[pred$name == "Willam Stark", "mother"] <- "Lorra Royce"
+pred[pred$name == "Willam Stark", "father"] <- "Beron Stark"
+
+pred[pred$name == "Rodrik Stark son of Beron", "mother"] <- "Lorra Royce"
+pred[pred$name == "Rodrik Stark son of Beron", "father"] <- "Beron Stark"
+pred[pred$name == "Rodrik Stark son of Beron", "child_of"] <- NA
+
+add <- pred[1, ]
+add[1, ] <- NA
+add$name <- "Lyarra Stark"
+add$mother <- "Arya Flint"
+add$father <- "Rodrik Stark"
+add$spouse <- "Rickard Stark"
+pred <- rbind(pred, add)
+
 
 
 ```
