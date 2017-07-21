@@ -107,7 +107,9 @@ child_of[child_of$name == "Ulf son of Umar", "child_of"] <- "Umar"
 
 
 
-Performing a Left Join between the Child_of and Pred Datasets for joining both the tables Together i.e Merging.
+
+Performing a Left Join between the Child_of and Pred Datasets for joining both the tables Together i.e Merging them together with a similar column.
+It is similar to using *__'merge()'__* function in R
 
 ```{r}
 #Joining the 2 tables by common "name" column
@@ -169,7 +171,7 @@ add$father <- "Steffon Baratheon"
 add$spouse <- "Cersei Lannister"
 pred <- rbind(pred, add) #Binding Row wise to the dataset
  
-----------
+#----------
   
 #Adding some more values
 
@@ -206,6 +208,145 @@ add$name <- "Lyarra Stark"
 add$mother <- "Arya Flint"
 add$father <- "Rodrik Stark"
 add$spouse <- "Rickard Stark"
+pred <- rbind(pred, add)
+
+
+#------------
+  
+
+#Adding some more Names
+
+pred[pred$name == "Artos Stark", "mother"] <- "Lorra Royce"
+pred[pred$name == "Artos Stark", "father"] <- "Beron Stark"
+
+pred[pred$name == "Rodwell Stark", "mother"] <- "Alys Karstark"
+pred[pred$name == "Rodwell Stark", "father"] <- "Brandon Stark son of Cregan"
+
+pred[pred$name == "Beron Stark", "mother"] <- "Alys Karstark"
+pred[pred$name == "Beron Stark", "father"] <- "Brandon Stark son of Cregan"
+
+pred[pred$name == "Brandon Stark son of Cregan", "mother"] <- "Lynara Stark"
+pred[pred$name == "Brandon Stark son of Cregan", "father"] <- "Cregan Stark"
+
+pred[pred$name == "Cregan Stark", "mother"] <- "Gilliane Glover"
+pred[pred$name == "Cregan Stark", "father"] <- "Rickon Stark son of Benjen"
+
+pred[pred$name == "Cersei Lannister", "mother"] <- "Joanna Lannister"
+pred[pred$name == "Cersei Lannister", "father"] <- "Tywin Lannister"
+
+pred[pred$name == "Jaime Lannister", "mother"] <- "Joanna Lannister"
+pred[pred$name == "Jaime Lannister", "father"] <- "Tywin Lannister"
+
+pred[pred$name == "Tyrion Lannister", "mother"] <- "Joanna Lannister"
+pred[pred$name == "Tyrion Lannister", "father"] <- "Tywin Lannister"
+
+pred[pred$name == "Joffrey Baratheon", "child_of"] <- "Jaime Lannister"
+pred[pred$name == "Myrcella Baratheon", "child_of"] <- "Jaime Lannister"
+pred[pred$name == "Tommen Baratheon", "child_of"] <- "Jaime Lannister"
+
+pred[pred$name == "Jonnel Stark", "father"] <- "Cregan Stark"
+pred[pred$name == "Jonnel Stark", "mother"] <- "Lynara Stark"
+
+pred[pred$name == "Brendan Stark son of Cregan", "father"] <- "Cregan Stark"
+pred[pred$name == "Brendan Stark son of Cregan", "child_of"] <- NA
+
+pred[pred$name == "Eddard Stark", "mother"] <- "Lyarra Stark"
+pred[pred$name == "Benjen Stark", "mother"] <- "Lyarra Stark"
+pred[pred$name == "Brandon Stark", "mother"] <- "Lyarra Stark"
+pred[pred$name == "Lyanna Stark", "mother"] <- "Lyarra Stark"
+
+pred[pred$name == "Edwyle Stark", "mother"] <- "Melantha Blackwood"
+pred[pred$name == "Edwyle Stark", "father"] <- "Willam Stark"
+
+pred[pred$name == "Cerenna Lannister", "mother"] <- "Myranda Lefford"
+pred[pred$name == "Myrielle Lannister", "mother"] <- "Myranda Lefford"
+pred[pred$name == "Daven Lannister", "mother"] <- "Myranda Lefford"
+
+pred[pred$name == "Cerenna Lannister", "father"] <- "Stafford Lannister"
+pred[pred$name == "Myrielle Lannister", "father"] <- "Stafford Lannister"
+pred[pred$name == "Daven Lannister", "father"] <- "Stafford Lannister"
+
+pred[pred$name == "Joanna Lannister", "father"] <- "Jason Lannister"
+pred[pred$name == "Joanna Lannister", "mother"] <- "Marla Prester"
+
+pred[pred$name == "Stafford Lannister", "father"] <- "Jason Lannister"
+pred[pred$name == "Stafford Lannister", "mother"] <- "Marla Prester"
+
+pred[pred$name == "Tywin Lannister", "father"] <- "Tytos Lannister"
+pred[pred$name == "Kevan Lannister", "father"] <- "Tytos Lannister"
+pred[pred$name == "Genna Lannister", "father"] <- "Tytos Lannister"
+
+pred[pred$name == "Lancel Lannister", "father"] <- "Kevan Lannister"
+pred[pred$name == "Lancel Lannister", "mother"] <- "Dorna Swyft"
+
+pred[pred$name == "Willem Lannister", "father"] <- "Kevan Lannister"
+pred[pred$name == "Willem Lannister", "mother"] <- "Dorna Swyft"
+
+pred[pred$name == "Brandon Stark son of Cregan", "child_of"] <- NA
+
+pred[pred$name == "Lanna Lannister", "father"] <- "Damion Lannister"
+pred[pred$name == "Lanna Lannister", "mother"] <- "Shiera Crakehall"
+
+pred[pred$name == "Lucion Lannister", "father"] <- "Damion Lannister"
+pred[pred$name == "Lucion Lannister", "mother"] <- "Shiera Crakehall"
+
+pred[pred$name == "Damion Lannister", "father"] <- "Damon Lannister son of Jason"
+pred[pred$name == "Damion Lannister", "mother"] <- "Ella Lannister"
+
+pred[pred$name == "Damon Lannister son of Jason", "father"] <- "Jason Lannister"
+pred[pred$name == "Damon Lannister son of Jason", "child_of"] <- NA
+pred[pred$name == "Damon Lannister son of Jason", "mother"] <- "Alys Stackspear"
+
+pred[pred$name == "Jason Lannister", "father"] <- "Gerold Lannister"
+pred[pred$name == "Jason Lannister", "mother"] <- "Rohanne Webber"
+
+pred[pred$name == "Damon Lannister lord", "name"] <- "Damon Lannister"
+pred[pred$name == "Tybolt Lannister", "father"] <- "Damon Lannister"
+pred[pred$name == "Tybolt Lannister", "mother"] <- "Cerissa Brax"
+
+pred[pred$name == "Gerold Lannister", "father"] <- "Damon Lannister"
+pred[pred$name == "Gerold Lannister", "mother"] <- "Cerissa Brax"
+
+pred[pred$name == "Tygett Lannister", "father"] <- "Tytos Lannister"
+pred[pred$name == "Tygett Lannister", "mother"] <- "Jeyne Marbrand"
+pred[pred$name == "Tywin Lannister", "mother"] <- "Jeyne Marbrand"
+pred[pred$name == "Kevan Lannister", "mother"] <- "Jeyne Marbrand"
+pred[pred$name == "Genna Lannister", "mother"] <- "Jeyne Marbrand"
+
+pred[pred$name == "Gerion Lannister", "father"] <- "Tytos Lannister"
+pred[pred$name == "Gerion Lannister", "mother"] <- "Jeyne Marbrand"
+
+pred[pred$name == "Tyrek Lannister", "father"] <- "Tygett Lannister"
+pred[pred$name == "Tyrek Lannister", "mother"] <- "Darlessa Marbrand"
+
+pred[pred$name == "Steffon Baratheon", "father"] <- "Ormund Baratheon"
+pred[pred$name == "Steffon Baratheon", "mother"] <- "Rhaelle Targaryen"
+
+pred[pred$name == "Daenerys Targaryen", "father"] <- "Aerys II Targaryen"
+pred[pred$name == "Daenerys Targaryen", "mother"] <- "Rhaella Targaryen"
+
+pred[pred$name == "Viserys Targaryen", "father"] <- "Aerys II Targaryen"
+pred[pred$name == "Viserys Targaryen", "mother"] <- "Rhaella Targaryen"
+
+pred[pred$name == "Rhaegar Targaryen", "father"] <- "Aerys II Targaryen"
+pred[pred$name == "Rhaegar Targaryen", "mother"] <- "Rhaella Targaryen"
+
+pred[pred$name == "Rhaella Targaryen", "father"] <- "Jaehaerys II Targaryen"
+pred[pred$name == "Rhaella Targaryen", "mother"] <- "Shaera Targaryen"
+
+pred[pred$name == "Rhaenys Targaryen daughter of Rhaegar", "father"] <- "Rhaegar Targaryen"
+pred[pred$name == "Rhaenys Targaryen daughter of Rhaegar", "mother"] <- "Elia Martell"
+pred[pred$name == "Rhaenys Targaryen daughter of Rhaegar", "child_of"] <- NA
+
+pred[pred$name == "Aegon Targaryen daughter of Rhaegar", "father"] <- "Rhaegar Targaryen"
+pred[pred$name == "Aegon Targaryen daughter of Rhaegar", "mother"] <- "Elia Martell"
+pred[pred$name == "Aegon Targaryen daughter of Rhaegar", "child_of"] <- NA
+
+pred[pred$name == "Aegon IV Targaryen", "father"] <- "Aerys II Targaryen"
+pred[pred$name == "Aegon IV Targaryen", "mother"] <- "Rhaella Targaryen"
+
+add <- pred[pred$name == "Jaehaerys II Targaryen", ]
+add[, "name"] <- "Shaera Targaryen"
 pred <- rbind(pred, add)
 
 
