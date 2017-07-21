@@ -674,10 +674,74 @@ pred_3 <- pred[, c(6, 34)] %>%
 pred_4 <- pred[, c(6, 16)] %>%
   na.omit()
 
+
+```
+
+
+
+####Generating the first Network Dataset
+
+```{r}
+
 net1 <- data.frame(source = c(pred_2a$mother, pred_2b$father, pred_3$child_of, pred_4$name),
                   target = c(pred_2a$name, pred_2b$name, pred_3$name, pred_4$spouse),
                   type = c(rep("mother", nrow(pred_2a)), rep("father", nrow(pred_2b)), rep("father/mother", nrow(pred_3)), rep("spouse", nrow(pred_4))))
 
+head(net1)
+
 
 ```
+
+-----------------
+
+
+
+##Scraping GOT Data
+
+
+```{r,message=FALSE,warning=FALSE}
+require(rvest)
+
+
+url <- "http://gameofthrones.wikia.com/wiki/Category:Major_Characters?display=page&sort=mostvisited"
+main.page <- read_html(url)
+
+names <- main.page %>% # feed `main.page` to the next step
+  html_nodes(".mw-content-ltr") %>%
+  .[3] %>%
+  html_text()
+
+names <- strsplit(names, split = "\n")[[1]] %>%
+  .[-c(1, 10, 19)]
+names <- gsub("[[:upper:]]$", "", names)
+names <- gsub(" ", "_", names)
+
+
+library(RCurl)
+
+for (name in names) {
+  url <- paste0("http://gameofthrones.wikia.com/wiki/", name)
+
+  web_page <- readLines(url)
+  left <- web_page[grep("pi-data-label pi-secondary-font", web_page)]
+  left <- gsub("\t\t<h3 class=\"pi-data-label pi-secondary-font\">|</h3>", "", left)
+  right <- web_page[grep("pi-data-value pi-font", web_page)]
+  right <- gsub("(.*title=\")(.*)(\">.*)", "\\2", right)
+  
+  df <- data.frame(name = name, attr = right, type = left)
+  
+  if (name == names[1]) {
+    df_final <- df
+  } else {
+    df_final <- rbind(df_final, df)
+  }
+}
+
+df_final_major <- df_final
+
+
+```
+
+
+
 
