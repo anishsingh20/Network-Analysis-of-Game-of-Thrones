@@ -160,6 +160,15 @@ pred[pred$name == "Renly Baratheon", "father"] <- "Steffon Baratheon"
 
 pred[pred$name == "Stannis Baratheon", "mother"] <- "Cassana Baratheon"
 
+#adding a row to the Pred dataset
+add <- pred[1, ] #Adding a row
+add[1, ] <- NA
+add$name <- "Robert Baratheon"
+add$mother <- "Cassana Baratheon"
+add$father <- "Steffon Baratheon"
+add$spouse <- "Cersei Lannister"
+pred <- rbind(pred, add) #Binding Row wise to the dataset
+
 
 ```
 
