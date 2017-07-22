@@ -703,16 +703,20 @@ head(net1)
 require(rvest)
 
 
-url <- "http://gameofthrones.wikia.com/wiki/Category:Major_Characters?display=page&sort=mostvisited"
-main.page <- read_html(url)
+#Scraping all the main characters fro wikipedia
+main.page <- read_html("https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_characters")
 
-names <- main.page %>% # feed `main.page` to the next step
-  html_nodes(".mw-content-ltr") %>%
-  .[3] %>%
-  html_text()
+names <- main.page %>% # feed `main.page` to the next step  
+  html_nodes(xpath='//*[@id="mw-content-text"]/div/table[2]') %>%
+  .[[1]] %>%
+  html_table(fill=T)
 
-names <- strsplit(names, split = "\n")[[1]] %>%
-  .[-c(1, 10, 19)]
+#removing irrelevant columns
+for(i in seq(3,9))
+{
+  names[,i]<-NULL
+}
+names$Appearances<-NULL
 names <- gsub("[[:upper:]]$", "", names)
 names <- gsub(" ", "_", names)
 
