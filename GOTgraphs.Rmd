@@ -20,6 +20,7 @@ characters_Frey <- characters %>%
 net_Frey <- net %>%
   filter(source %in% characters_Frey$name | target %in% characters_Frey$name)
 
+#adding line types and arrows i.e edges
 net_Frey$lty <- "solid"
 net_Frey$arrow <- ifelse(net_Frey$type == "spouse", 3, 2)
 
@@ -33,8 +34,11 @@ characters_Frey <- characters %>%
   filter(name %in% net_Frey$source | name %in% net_Frey$target) %>%
   arrange(name)
 
+
+#?graph_from_data_frame to search on this function
 graph_Frey <- graph_from_data_frame(net_Frey, directed = TRUE, vertices = characters_Frey)
 
 
 ```
 
+Now we will generate Directed Acyclic Graphs using igraph package
