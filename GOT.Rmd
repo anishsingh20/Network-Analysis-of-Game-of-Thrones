@@ -945,7 +945,21 @@ colors_edges <- with(net,
 #Joining net and color_edges df by type
 net <- left_join(net, colors_edges, by = "type")
 
+#------------
+#coloring the nodes on the basis of house
 
+color_vertices <- with(characters,
+                       data.frame(house2 = levels(as.factor(house2)),
+                                  color = I(brewer.pal(nlevels(as.factor(house2)), name = 'Set1'))))
+
+#joining the colored vertices with characters dataframe
+characters <- left_join(characters, color_vertices, by = "house2")
+
+#Shapes of the Gender
+characters$shape <- ifelse(characters$male == 1, "square",
+                                 ifelse(characters$male == 0, "circle", "triangle"))
+characters$shape[is.na(characters$shape)] <- "none"
 
 ```
+
 
