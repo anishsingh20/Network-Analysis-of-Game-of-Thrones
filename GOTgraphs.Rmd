@@ -169,3 +169,86 @@ legend("topleft", legend = c(as.character(color_vertices$house), as.character(co
 
 ```
 
+-----------
+
+###Baratheon House
+```{r}
+characters_Baratheon <- characters %>%
+  filter(house == "House Baratheon") %>%
+  filter(!name %in% c("Orys Baratheon", "Gowen Baratheon"))
+
+net_Baratheon <- net %>%
+  filter(source %in% characters_Baratheon$name | target %in% characters_Baratheon$name)
+
+net_Baratheon$lty <- ifelse(net_Baratheon$source == "Jaime Lannister" & net_Baratheon$type == "father/mother", "dotted", "solid")
+net_Baratheon$type <- ifelse(net_Baratheon$source == "Jaime Lannister" & net_Baratheon$type == "father/mother", "father", net_Baratheon$type)
+net_Baratheon[net_Baratheon$source == "Jaime Lannister" & net_Baratheon$type == "father", "color"] <- "#1B9E77"
+
+net_Baratheon$arrow <- ifelse(net_Baratheon$type == "spouse", 3, 2)
+
+characters_Baratheon <- characters %>%
+  filter(name %in% net_Baratheon$source | name %in% net_Baratheon$target) %>%
+  arrange(name)
+
+graph_Baratheon <- graph_from_data_frame(net_Baratheon, directed = TRUE, vertices = characters_Baratheon)
+
+```
+
+
+
+---------------------
+
+
+ 
+###House Targaryen 
+
+```{r}
+characters_Targaryen <- characters %>%
+  #filter(house == "House Targaryen")
+  filter(name %in% c("Daenerys Targaryen", "Rhaegar Targaryen", "Viserys Targaryen", "Aerys II Targaryen", "Jaehaerys II Targaryen", "Aegon V Targaryen", "Duncan Targaryen", "Rhaelle Targaryen"))
+
+net_Targaryen <- net %>%
+  filter(source %in% characters_Targaryen$name | target %in% characters_Targaryen$name)
+
+net_Targaryen$lty <- ifelse(net_Targaryen$source == "Maron Martell" & net_Targaryen$target == "Daenerys Targaryen", "dotted", "solid")
+net_Targaryen$lty <- ifelse(net_Targaryen$source == "Rhaegar Targaryen" & net_Targaryen$target == "Jon Snow", "dotted", net_Targaryen$lty)
+net_Targaryen$arrow <- ifelse(net_Targaryen$type == "spouse", 3, 2)
+
+characters_Targaryen <- characters %>%
+  filter(name %in% net_Targaryen$source | name %in% net_Targaryen$target) %>%
+  arrange(name)
+
+graph_Targaryen <- graph_from_data_frame(net_Targaryen, directed = TRUE, vertices = characters_Targaryen)
+
+```
+
+
+
+
+```{r}
+union_edges <- rbind(net_Arryn, 
+                     net_Baratheon,
+                     net_Frey,
+                     net_Greyjoy,
+                     net_Lannister,
+                     net_Martell,
+                     net_Stark,
+                     net_Targaryen,
+                     net_Tully,
+                     net_Tyrell) %>%
+  .[!duplicated(.), ]
+
+union_edges <- rbind(union_edges,
+                     c("Roose Bolton", "Ramsay Bolton", "father",	"#1B9E77", "solid",	2))
+
+union_edges1 <- union_edges[union_edges$type == "spouse", ]
+union_edges1$target <- union_edges[union_edges$type == "spouse", "source"]
+union_edges1$source <- union_edges[union_edges$type == "spouse", "target"]
+
+union_edges2 <- rbind(union_edges[union_edges$type != "spouse", ],
+                      union_edges[union_edges$type == "spouse", ],
+                      union_edges1)
+
+
+```
+
