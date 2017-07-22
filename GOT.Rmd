@@ -766,5 +766,45 @@ names(df_final)<-c("name")
 ```
 This data frame consists of all the characters in GOT i.e all supporting and Major characters.
 
+Saving the data frame.
+```{r}
+save(df_final, file = "df_final.RData")
 
+load("df_final.RData")
+
+
+
+```
+
+```{r}
+
+net <- rbind(net1)
+net$source <- as.character(net$source)
+net$target <- as.character(net$target)
+net$type <- as.character(net$type)
+
+net[net == "Cassana Estermont"] <- "Cassana Baratheon"
+net[net == "Catelyn Tully"] <- "Catelyn Stark"
+net[net == "Ramsay Snow"] <- "Ramsay Bolton"
+
+net <- net[!duplicated(net), ]
+net <- rbind(net, c("Talisa Stark", "Robb Stark", "spouse"))
+net[net$target == "Aegon IV Targaryen" & net$type == "mother", "source"] <- "Viserys II Targaryen"
+net[net$target == "Aegon IV Targaryen" & net$type == "father", "source"] <- "Larra Rogare"
+net[net$target == "Maron Martell", "target"] <- "Maron Martell I"
+
+#----------
+
+pred$name <- as.character(pred$name)
+characters <- data.frame(name = unique(c(as.character(net$source), as.character(net$target)))) %>%
+  mutate(name = as.character(name)) %>%
+  left_join(pred[, c(6, 8, 9, 15, 32:34)], by = "name")
+
+characters[characters == ""] <- NA
+#assigning 0 as NA value
+characters$popularity[is.na(characters$popularity)] <- 0
+#removing duplicate characters
+characters <- characters[!duplicated(characters), ]
+
+```
 
