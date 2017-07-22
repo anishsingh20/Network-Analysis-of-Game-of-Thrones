@@ -42,3 +42,28 @@ graph_Frey <- graph_from_data_frame(net_Frey, directed = TRUE, vertices = charac
 ```
 
 Now we will generate Directed Acyclic Graphs using igraph package
+
+```{r,out.height=15,out.width=20}
+#using pdf to generate pdf graphics
+pdf("family_frey_tree.pdf", width = 29, height = 20)
+#Plotting the DAG for Frey family
+plot(graph_Frey,
+     layout = layout_with_lgl,
+     vertex.label = gsub(" ", "\n", V(graph_Frey)$name),
+     vertex.shape = V(graph_Frey)$shape,
+     vertex.color = V(graph_Frey)$color, 
+     vertex.size = (V(graph_Frey)$popularity + 0.5) * 5, 
+     vertex.frame.color = "gray", 
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.8,
+     edge.arrow.mode = E(graph_Frey)$arrow,
+     edge.arrow.size = 0.5,
+     edge.color = E(graph_Frey)$color,
+     edge.lty = E(graph_Frey)$lty)
+
+legend("topleft", legend = c(as.character(color_vertices$house), as.character(colors_edges$type)), pch = 19,
+       col = c(color_vertices$color, colors_edges$color), pt.cex = 2, cex = 1, bty = "n", ncol = 1)
+dev.off()
+
+```
+
