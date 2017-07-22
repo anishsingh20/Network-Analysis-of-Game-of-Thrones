@@ -223,6 +223,87 @@ graph_Targaryen <- graph_from_data_frame(net_Targaryen, directed = TRUE, vertice
 ```
 
 
+-----------------
+
+###House Tyrell
+
+```{r}
+characters_Tyrell <- characters %>%
+  #filter(house == "House Tyrell")
+  filter(name %in% c("Luthor Tyrell", "Mace Tyrell", "Garlan Tyrell", "Margaery Tyrell", "Loras Tyrell", "Willas Tyrell", "Mina Tyrell", "Horas Redwyne", "Hobber Redwyne", "Moryn Tyrell", "Luthor Tyrell son of Moryn", "Theodore Tyrell", "Luthor Tyrell son of Theodore", "Elinor Tyrell", "Olene Tyrell", "Medwick Tyrell"))
+
+net_Tyrell <- net %>%
+  filter(source %in% characters_Tyrell$name | target %in% characters_Tyrell$name)
+
+net_Tyrell$lty <- "solid"
+net_Tyrell$arrow <- ifelse(net_Tyrell$type == "spouse", 3, 2)
+
+characters_Tyrell <- characters %>%
+  filter(name %in% net_Tyrell$source | name %in% net_Tyrell$target) %>%
+  arrange(name)
+
+graph_Tyrell <- graph_from_data_frame(net_Tyrell, directed = TRUE, vertices = characters_Tyrell)
+
+```
+
+
+---------------
+
+
+###Martell House
+
+```{r}
+characters_Martell <- characters %>%
+  filter(house == "House Martell")
+
+characters_Martell <- characters_Martell[characters_Martell$name != "Mors Martell", ]
+characters_Martell <- characters_Martell[characters_Martell$name != "Maron Martell", ]
+characters_Martell <- characters_Martell[characters_Martell$name != "Mariah Martell", ]
+
+net_Martell <- net %>%
+  filter(source %in% characters_Martell$name | target %in% characters_Martell$name)
+
+net_Martell$lty <- "solid"
+net_Martell$arrow <- ifelse(net_Martell$type == "spouse", 3, 2)
+
+characters_Martell <- characters %>%
+  filter(name %in% net_Martell$source | name %in% net_Martell$target) %>%
+  arrange(name)
+
+graph_Martell <- graph_from_data_frame(net_Martell, directed = TRUE, vertices = characters_Martell)
+
+```
+
+----------------
+
+###Tully House
+
+
+```{r}
+characters_Tully <- characters %>%
+  filter(house == "House Tully")
+
+net_Tully <- net %>%
+  filter(source %in% characters_Tully$name | target %in% characters_Tully$name)
+
+net_Tully <- net_Tully[-which(net_Tully$source == "Edmure Tully" & net_Tully$type == "father"), ]
+net_Tully <- net_Tully[-which(net_Tully$source == "Roslin Tully"), ]
+
+net_Tully$lty <- "solid"
+net_Tully$arrow <- ifelse(net_Tully$type == "spouse", 3, 2)
+
+characters_Tully <- characters %>%
+  filter(name %in% net_Tully$source | name %in% net_Tully$target) %>%
+  arrange(name)
+
+graph_Tully <- graph_from_data_frame(net_Tully, directed = TRUE, vertices = characters_Tully)
+
+```
+
+
+
+
+----------------
 
 
 ```{r}
