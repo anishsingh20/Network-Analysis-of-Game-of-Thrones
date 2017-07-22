@@ -808,3 +808,119 @@ characters <- characters[!duplicated(characters), ]
 
 ```
 
+
+```{r}
+
+characters[characters$name == "Tya Lannister", "male"] <- 0
+characters[grep("Aegon", characters$name), "male"] <- 1
+characters[grep("Aerys", characters$name), "male"] <- 1
+characters[grep("Baelon", characters$name), "male"] <- 1
+  
+for (i in 1:nrow(characters)) {
+  
+    name <- characters[i, "name"]
+    value <- ifelse(name %in% net$source & any(net[net$source == name, "type"] == "mother"), 0, 
+                    ifelse(name %in% net$source & any(net[net$source == name, "type"] == "father"), 1, characters[i, "male"]))
+    
+    characters[i, "male"] <- value
+}
+
+#making a Boolean column with male as 1 otherwise 0
+characters[characters$name == "Ramsay Bolton", "male"] <- 1
+characters[characters$name == "Arya Stark", "male"] <- 0
+characters[characters$name == "Sansa Stark", "male"] <- 0
+characters[characters$name == "Robb Stark", "male"] <- 1
+characters[characters$name == "Rickon Stark", "male"] <- 1
+characters[characters$name == "Bran Stark", "male"] <- 1
+characters[characters$name == "Jon Snow", "male"] <- 1
+
+for (i in 1:nrow(characters)) {
+  value <- characters[i, "male"]
+  
+  if (is.na(value)) {
+    name <- characters[i, "name"]
+        type <- net[which(net$source == name | net$target == name), "type"]
+        
+        if (any(type == "spouse")) {
+          net2 <- net[which(net$source == name | net$target == name), ] %>%
+            filter(type == "spouse")
+          
+          if (nrow(net2) > 1) {
+            sp <- c(net2[, "source"], net2[, "target"])
+            sp <- sp[which(sp != name)]
+            
+            for (j in length(sp)) {
+              spouse <- sp[j]
+              value[j] <- ifelse(characters[characters$name == spouse, "male"] == 1, 0, 
+                          ifelse(characters[characters$name == spouse, "male"] == 0, 1, NA))
+            }
+            
+            value <- na.omit(value)[1]
+          } else {
+            sp1 <- net2[, "source"]
+            sp2 <- net2[, "target"]
+            
+            spouse <- ifelse(sp1 == name, sp2, sp1)
+            value <- ifelse(characters[characters$name == spouse, "male"] == 1, 0, 
+                            ifelse(characters[characters$name == spouse, "male"] == 0, 1, NA))
+          }
+          
+          characters[i, "male"] <- value
+        }
+  }
+  
+}
+
+
+
+
+
+#Adding houses columns to the characters dataframe
+#------------
+
+
+for (i in 1:nrow(characters)) {
+  
+  if (!is.na(characters[i, "male"])) {
+    
+    if (characters[i, "male"] == 1 & is.na(characters[i, "house"])) {
+    
+      name <- gsub(" son of .*", "", characters[i, "name"])
+      characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", name))
+    }
+    
+    if (characters[i, "male"] == 0) {
+      
+      name <- characters[i, "name"]
+      father <- net[which(net$target == name & net$type == "father"), ]
+      
+      if (nrow(father) > 0) {
+        
+        characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", father$source))
+      } else {
+        
+        characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", characters[i, "name"]))
+      }
+  }
+  } else {
+    
+    characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", characters[i, "name"]))
+  }
+}
+
+characters[grep("Baratheon", characters$house), "house"] <- "House Baratheon"
+characters[grep("Bolton", characters$house), "house"] <- "House Bolton"
+characters[grep("Fossoway", characters$house), "house"] <- "House Fossoway"
+characters[grep("Frey", characters$house), "house"] <- "House Frey"
+characters[grep("Lannister", characters$house), "house"] <- "House Lannister"
+characters[grep("Tyrell", characters$house), "house"] <- "House Tyrell"
+characters[grep("Stark", characters$house), "house"] <- "House Stark"
+characters[grep("Targaryen", characters$house), "house"] <- "House Targaryen"
+
+characters[characters$name == "Rickon Stark son of Benjen", "house"] <- "House Stark"
+characters[characters$name == "Drogo", "house"] <- "Dothraki"
+
+characters$house2 <- ifelse(characters$house %in% c("House Targaryen", "House Stark", "House Tully", "House Lannister", "House Baratheon", "House Tyrell", "House Martell", "House Frey", "House Greyjoy"), characters$house, NA)
+
+```
+
