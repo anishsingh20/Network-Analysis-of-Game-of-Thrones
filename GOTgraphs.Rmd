@@ -1,0 +1,40 @@
+---
+title: "Network Analysis of Game of Thrones "
+output: html_notebook
+---
+
+
+###This Article will now consist of the plotting Directed Acyclic Graphs of relationships 
+
+The previous article consisted of the Data Processing,data scraping and preparing the data to be used in making Network DAGs.
+
+```{r,warning=FALSE,message=FALSE}
+require(igraph)
+
+```
+```{r}
+#making a new data frame consisting of all people in House Frey
+characters_Frey <- characters %>%
+  filter(name %in% c("Emmon Frey", "Cleos Frey", "Tywin Frey", "Willem Frey", "Lyonel Frey", "Tion Frey", "Walder Frey son of Emmon", "Amerei Frey", "Lancel Lannister", "Merrett Frey", "Walda Frey daughter of Merrett", "Walder Frey son of Merrett", "Marissa Frey", "Roslin Frey", "Olyvar Frey", "Willamen Frey", "Benfrey Frey", "Perwyn Frey"))
+
+net_Frey <- net %>%
+  filter(source %in% characters_Frey$name | target %in% characters_Frey$name)
+
+net_Frey$lty <- "solid"
+net_Frey$arrow <- ifelse(net_Frey$type == "spouse", 3, 2)
+
+net_Frey <- net_Frey[net_Frey$type != "father/mother", ]
+net_Frey <- rbind(net_Frey,
+                  c("Perra Royce", "Walder Frey", "spouse", "#E7298A", "solid", 3),
+                  c("Amarei Crakehall", "Walder Frey", "spouse", "#E7298A", "solid", 3),
+                  c("Bethany Rosby", "Walder Frey", "spouse", "#E7298A", "solid", 3))
+
+characters_Frey <- characters %>%
+  filter(name %in% net_Frey$source | name %in% net_Frey$target) %>%
+  arrange(name)
+
+graph_Frey <- graph_from_data_frame(net_Frey, directed = TRUE, vertices = characters_Frey)
+
+
+```
+

@@ -958,8 +958,10 @@ characters <- left_join(characters, color_vertices, by = "house2")
 #Shapes of the Gender
 characters$shape <- ifelse(characters$male == 1, "square",
                                  ifelse(characters$male == 0, "circle", "triangle"))
+
 characters$shape[is.na(characters$shape)] <- "none"
 
 ```
 
+#####Now we are done with Data preparation to be used to plot Graphs .
 
