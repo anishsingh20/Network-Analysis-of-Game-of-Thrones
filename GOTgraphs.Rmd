@@ -45,7 +45,7 @@ Now we will generate Directed Acyclic Graphs using igraph package
 
 ```{r,out.height=15,out.width=20}
 #using pdf to generate pdf graphics
-pdf("family_frey_tree.pdf", width = 29, height = 20)
+pdf("family_frey_tree.pdf", width = 20, height = 15)
 #Plotting the DAG for Frey family
 plot(graph_Frey,
      layout = layout_with_lgl,
@@ -63,7 +63,7 @@ plot(graph_Frey,
 
 legend("topleft", legend = c(as.character(color_vertices$house), as.character(colors_edges$type)), pch = 19,
        col = c(color_vertices$color, colors_edges$color), pt.cex = 2, cex = 1, bty = "n", ncol = 1)
-dev.off()
+
 
 ```
 
@@ -115,7 +115,57 @@ plot(graph_Stark,
      edge.lty = E(graph_Stark)$lty)
 legend("topleft", legend = c(as.character(color_vertices$house), as.character(colors_edges$type)), pch = 19,
        col = c(color_vertices$color, colors_edges$color), pt.cex = 2, cex = 1, bty = "n", ncol = 1)
-dev.off()
+
+
+```
+
+---------------
+
+
+###Lannister Family Tree
+
+```{r}
+characters_Lannister <- characters %>%
+  filter(house == "House Lannister") %>%
+  filter(!name %in% c("Margot Lannister", "Tya Lannister"))
+
+net_Lannister <- net %>%
+  filter(source %in% characters_Lannister$name | target %in% characters_Lannister$name)
+
+net_Lannister$lty <- ifelse(net_Lannister$source == "Jaime Lannister" & net_Lannister$type == "father/mother", "dotted", "solid")
+net_Lannister$type <- ifelse(net_Lannister$source == "Jaime Lannister" & net_Lannister$type == "father/mother", "father", net_Lannister$type)
+net_Lannister[net_Lannister$source == "Jaime Lannister" & net_Lannister$type == "father", "color"] <- "#1B9E77"
+
+net_Lannister$arrow <- ifelse(net_Lannister$type == "spouse", 3, 2)
+
+characters_Lannister <- characters %>%
+  filter(name %in% net_Lannister$source | name %in% net_Lannister$target) %>%
+  arrange(name)
+
+graph_Lannister <- graph_from_data_frame(net_Lannister, directed = TRUE, vertices = characters_Lannister)
+
+
+```
+
+Plotting the Graph
+```{r}
+pdf("family_tree_Lannister.pdf", width = 20, height = 15)
+plot(graph_Lannister,
+     layout = layout_with_lgl,
+     vertex.label = gsub(" ", "\n", V(graph_Lannister)$name),
+     vertex.shape = V(graph_Lannister)$shape,
+     vertex.color = V(graph_Lannister)$color, 
+     vertex.size = (V(graph_Lannister)$popularity + 0.5) * 5, 
+     vertex.frame.color = "gray", 
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.8,
+     edge.arrow.mode = E(graph_Lannister)$arrow,
+     edge.arrow.size = 0.5,
+     edge.color = E(graph_Lannister)$color,
+     edge.lty = E(graph_Lannister)$lty)
+legend("topleft", legend = c(as.character(color_vertices$house), as.character(colors_edges$type)), pch = 19,
+       col = c(color_vertices$color, colors_edges$color), pt.cex = 2, cex = 1, bty = "n", ncol = 1)
+
 
 ```
 
