@@ -306,6 +306,40 @@ graph_Tully <- graph_from_data_frame(net_Tully, directed = TRUE, vertices = char
 ----------------
 
 
+
+
+###Arryn House
+
+```{r}
+characters_Arryn <- characters %>%
+  filter(house == "House Arryn")
+
+characters_Arryn <- characters_Arryn[characters_Arryn$name != "Aemma Arryn", ]
+characters_Arryn <- characters_Arryn[characters_Arryn$name != "Rodrik Arryn", ]
+
+net_Arryn <- net %>%
+  filter(source %in% characters_Arryn$name | target %in% characters_Arryn$name)
+
+net_Arryn <- net_Arryn[-which(net_Arryn$target == "Alys Arryn" & net_Arryn$source == "Rhaegel Targaryen"), ]
+
+net_Arryn$lty <- "solid"
+net_Arryn$arrow <- ifelse(net_Arryn$type == "spouse", 3, 2)
+
+characters_Arryn <- characters %>%
+  filter(name %in% net_Arryn$source | name %in% net_Arryn$target) %>%
+  arrange(name)
+
+graph_Arryn <- graph_from_data_frame(net_Arryn, directed = TRUE, vertices = characters_Arryn)
+
+
+```
+
+------------
+
+
+
+
+
 ```{r}
 union_edges <- rbind(net_Arryn, 
                      net_Baratheon,
