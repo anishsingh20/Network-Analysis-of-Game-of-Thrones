@@ -716,6 +716,7 @@ for(i in 1:7)
 {
   names$Appearances<-NULL
 }
+
 #renaming the columns
 names(names)<-c("actor","name")
 names$actor<-NULL
@@ -727,6 +728,43 @@ df_final_major <- data.frame(names)
 
 ```
 
+
+###Scraping the list of Minor and Supporting characters
+
+```{r}
+main.page <- read_html("https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_characters")
+
+#List of Minor actors
+names <- main.page %>%  
+  html_nodes(xpath='//*[@id="mw-content-text"]/div/table[3]') %>%
+  .[[1]] %>%
+  html_table(fill=T)
+
+
+for(i in 1:7)
+{
+  names$Appearances<-NULL
+}
+
+#renaming the columns
+names(names)<-c("actor","name")
+names$actor<-NULL
+names<-names[!names$name=="Character",]#removing a irrelevant row
+
+
+df_final_minor <-data.frame(names)
+
+```
+
+###Final Data frame
+```{r}
+df_final <- rbind(df_final_major,
+                  df_final_minor)
+
+names(df_final)<-c("name")
+
+```
+This data frame consists of all the characters in GOT i.e all supporting and Major characters.
 
 
 
