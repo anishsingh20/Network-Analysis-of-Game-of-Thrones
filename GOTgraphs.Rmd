@@ -67,3 +67,55 @@ dev.off()
 
 ```
 
+---------------
+
+
+###House Stark Tree
+
+```{r}
+characters_Stark <- characters %>%
+  filter(house == "House Stark")
+
+net_Stark <- net %>%
+  filter(source %in% characters_Stark$name | target %in% characters_Stark$name)
+
+net_Stark <- net_Stark[net_Stark$source != "Unnamed mother", ]
+
+net_Stark$lty <- ifelse(net_Stark$source == "Lyanna Stark" & net_Stark$target == "Jon Snow", "dotted", "solid")
+net_Stark$lty <- ifelse(net_Stark$source == "Sansa Stark" & net_Stark$target == "Ramsay Bolton", "dotted", net_Stark$lty)
+net_Stark$lty <- ifelse(net_Stark$source == "Rhaegar Targaryen" & net_Stark$target == "Jon Snow", "dotted", net_Stark$lty)
+net_Stark$lty <- ifelse(net_Stark$source == "Talisa Stark" & net_Stark$target == "Robb Stark", "dotted", net_Stark$lty)
+
+net_Stark$arrow <- ifelse(net_Stark$type == "spouse", 3, 2)
+
+characters_Stark <- characters %>%
+  filter(name %in% net_Stark$source | name %in% net_Stark$target) %>%
+  arrange(name)
+
+graph_Stark <- graph_from_data_frame(net_Stark, directed = TRUE, vertices = characters_Stark)
+
+
+```
+
+Stark Family Tree 
+```{r}
+pdf("family_tree_Stark.pdf", width = 20, height = 15)
+plot(graph_Stark,
+     layout = layout_with_lgl,
+     vertex.label = gsub(" ", "\n", V(graph_Stark)$name),
+     vertex.shape = V(graph_Stark)$shape,
+     vertex.color = V(graph_Stark)$color, 
+     vertex.size = (V(graph_Stark)$popularity + 0.5) * 5, 
+     vertex.frame.color = "gray", 
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.8,
+     edge.arrow.mode = E(graph_Stark)$arrow,
+     edge.arrow.size = 0.5,
+     edge.color = E(graph_Stark)$color,
+     edge.lty = E(graph_Stark)$lty)
+legend("topleft", legend = c(as.character(color_vertices$house), as.character(colors_edges$type)), pch = 19,
+       col = c(color_vertices$color, colors_edges$color), pt.cex = 2, cex = 1, bty = "n", ncol = 1)
+dev.off()
+
+```
+
