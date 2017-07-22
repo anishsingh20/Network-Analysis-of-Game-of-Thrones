@@ -1,7 +1,176 @@
 ---
-title: "Network Analysis of Game of Thrones "
-output: html_notebook
+title: 'Network Analysis of Game of Thrones '
+output:
+  html_document: default
+  html_notebook: default
 ---
+```{r, include=FALSE}
+characters <- data.frame(name = unique(c(as.character(net$source), as.character(net$target)))) %>%
+  mutate(name = as.character(name)) %>%
+  left_join(pred[, c(6, 8, 9, 15, 32:34)], by = "name")
+
+characters[characters == ""] <- NA
+#assigning 0 as NA value
+characters$popularity[is.na(characters$popularity)] <- 0
+#removing duplicate characters
+characters <- characters[!duplicated(characters), ]
+
+```
+
+
+```{r, include=FALSE}
+
+characters[characters$name == "Tya Lannister", "male"] <- 0
+characters[grep("Aegon", characters$name), "male"] <- 1
+characters[grep("Aerys", characters$name), "male"] <- 1
+characters[grep("Baelon", characters$name), "male"] <- 1
+  
+for (i in 1:nrow(characters)) {
+  
+    name <- characters[i, "name"]
+    value <- ifelse(name %in% net$source & any(net[net$source == name, "type"] == "mother"), 0, 
+                    ifelse(name %in% net$source & any(net[net$source == name, "type"] == "father"), 1, characters[i, "male"]))
+    
+    characters[i, "male"] <- value
+}
+
+#making a Boolean column with male as 1 otherwise 0
+characters[characters$name == "Ramsay Bolton", "male"] <- 1
+characters[characters$name == "Arya Stark", "male"] <- 0
+characters[characters$name == "Sansa Stark", "male"] <- 0
+characters[characters$name == "Robb Stark", "male"] <- 1
+characters[characters$name == "Rickon Stark", "male"] <- 1
+characters[characters$name == "Bran Stark", "male"] <- 1
+characters[characters$name == "Jon Snow", "male"] <- 1
+
+for (i in 1:nrow(characters)) {
+  value <- characters[i, "male"]
+  
+  if (is.na(value)) {
+    name <- characters[i, "name"]
+        type <- net[which(net$source == name | net$target == name), "type"]
+        
+        if (any(type == "spouse")) {
+          net2 <- net[which(net$source == name | net$target == name), ] %>%
+            filter(type == "spouse")
+          
+          if (nrow(net2) > 1) {
+            sp <- c(net2[, "source"], net2[, "target"])
+            sp <- sp[which(sp != name)]
+            
+            for (j in length(sp)) {
+              spouse <- sp[j]
+              value[j] <- ifelse(characters[characters$name == spouse, "male"] == 1, 0, 
+                          ifelse(characters[characters$name == spouse, "male"] == 0, 1, NA))
+            }
+            
+            value <- na.omit(value)[1]
+          } else {
+            sp1 <- net2[, "source"]
+            sp2 <- net2[, "target"]
+            
+            spouse <- ifelse(sp1 == name, sp2, sp1)
+            value <- ifelse(characters[characters$name == spouse, "male"] == 1, 0, 
+                            ifelse(characters[characters$name == spouse, "male"] == 0, 1, NA))
+          }
+          
+          characters[i, "male"] <- value
+        }
+  }
+  
+}
+
+
+
+
+
+#Adding houses columns to the characters dataframe
+#------------
+
+
+for (i in 1:nrow(characters)) {
+  
+  if (!is.na(characters[i, "male"])) {
+    
+    if (characters[i, "male"] == 1 & is.na(characters[i, "house"])) {
+    
+      name <- gsub(" son of .*", "", characters[i, "name"])
+      characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", name))
+    }
+    
+    if (characters[i, "male"] == 0) {
+      
+      name <- characters[i, "name"]
+      father <- net[which(net$target == name & net$type == "father"), ]
+      
+      if (nrow(father) > 0) {
+        
+        characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", father$source))
+      } else {
+        
+        characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", characters[i, "name"]))
+      }
+  }
+  } else {
+    
+    characters[i, "house"] <- paste("House", gsub("(.* )(.*$)", "\\2", characters[i, "name"]))
+  }
+}
+
+characters[grep("Baratheon", characters$house), "house"] <- "House Baratheon"
+characters[grep("Bolton", characters$house), "house"] <- "House Bolton"
+characters[grep("Fossoway", characters$house), "house"] <- "House Fossoway"
+characters[grep("Frey", characters$house), "house"] <- "House Frey"
+characters[grep("Lannister", characters$house), "house"] <- "House Lannister"
+characters[grep("Tyrell", characters$house), "house"] <- "House Tyrell"
+characters[grep("Stark", characters$house), "house"] <- "House Stark"
+characters[grep("Targaryen", characters$house), "house"] <- "House Targaryen"
+
+characters[characters$name == "Rickon Stark son of Benjen", "house"] <- "House Stark"
+characters[characters$name == "Drogo", "house"] <- "Dothraki"
+
+characters$house2 <- ifelse(characters$house %in% c("House Targaryen", "House Stark", "House Tully", "House Lannister", "House Baratheon", "House Tyrell", "House Martell", "House Frey", "House Greyjoy"), characters$house, NA)
+
+```
+
+
+```{r, include=FALSE}
+net[net$source == "Rhaegar Targaryen" & net$target == "Aegon Targaryen son of Rhaegar", "type"] <- "father"
+
+characters[characters$name == "Aegon II", "name"] <- "Aegon II Targaryen"
+characters[characters$name == "Aegon II Targaryen", "house"] <- "House Targaryen"
+characters[characters$name == "Aegon Targaryen son of Jaehaerys I", "house"] <- "House Targaryen"
+characters[characters$name == "Marsella Weynwood", "name"] <- "Marsella Waynwood"
+
+
+#adding color to the Network edges
+library(RColorBrewer)
+
+#adding colors to the types i.e father,mother,spouse i.e relationships
+colors_edges <- with(net,
+                     data.frame(type = levels(as.factor(type)),
+                                color = I(brewer.pal(nlevels(as.factor(type)), name = 'Dark2'))))
+
+#Joining net and color_edges df by type
+net <- left_join(net, colors_edges, by = "type")
+
+#------------
+#coloring the nodes on the basis of house
+
+color_vertices <- with(characters,
+                       data.frame(house2 = levels(as.factor(house2)),
+                                  color = I(brewer.pal(nlevels(as.factor(house2)), name = 'Set1'))))
+
+#joining the colored vertices with characters dataframe
+characters <- left_join(characters, color_vertices, by = "house2")
+
+#Shapes of the Gender
+characters$shape <- ifelse(characters$male == 1, "square",
+                                 ifelse(characters$male == 0, "circle", "triangle"))
+
+characters$shape[is.na(characters$shape)] <- "none"
+
+```
 
 
 ###This Article will now consist of the plotting Directed Acyclic Graphs of relationships 
@@ -371,7 +540,7 @@ graph_Greyjoy <- graph_from_data_frame(net_Greyjoy, directed = TRUE, vertices = 
 ##Now Plotting a Big Graph with all the families 
 
 
-
+Making a Big data frame with all families and Houses Information
 ```{r}
 union_edges <- rbind(net_Arryn, 
                      net_Baratheon,
@@ -396,7 +565,31 @@ union_edges2 <- rbind(union_edges[union_edges$type != "spouse", ],
                       union_edges[union_edges$type == "spouse", ],
                       union_edges1)
 
+union_edges <- union_edges2 %>%
+  .[!duplicated(.), ]
+
+union_edges <- union_edges[, -ncol(union_edges)]
+
+union_characters <- rbind(characters_Arryn, 
+                          characters_Baratheon,
+                          characters_Frey,
+                          characters_Greyjoy,
+                          characters_Lannister,
+                          characters_Martell,
+                          characters_Stark,
+                          characters_Targaryen,
+                          characters_Tully,
+                          characters_Tyrell) %>%
+  .[!duplicated(.), ] 
+
+#removing 6 and 7 columns
+union_characters <- union_characters[, -c(6, 7)]
+
+
+#Saving the Data
+save(union_edges, file = "union_edges.RData")
+save(union_characters, file = "union_characters.RData")
+
 
 ```
 
-------------------

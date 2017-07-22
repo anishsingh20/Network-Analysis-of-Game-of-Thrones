@@ -1,6 +1,8 @@
 ---
 title: "Network Analysis on Game of Thrones"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
 ---
 
 In this article, I will be exploring and doing network analysis of the families of major characters from Game of Thrones which is a very famous TV series.
@@ -63,7 +65,7 @@ battle<-read.csv("battles.csv")
 deaths<-read.csv("character-deaths.csv")
 
 #pred dataset
-pred<-read.csv("character-pred.csv")
+pred<-read.csv("character-predictions.csv")
 
 ```
 
