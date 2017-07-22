@@ -541,7 +541,7 @@ graph_Greyjoy <- graph_from_data_frame(net_Greyjoy, directed = TRUE, vertices = 
 
 
 Making a Big data frame with all families and Houses Information
-```{r}
+```{r,warning=F,message=FALSE}
 union_edges <- rbind(net_Arryn, 
                      net_Baratheon,
                      net_Frey,
@@ -591,5 +591,67 @@ save(union_edges, file = "union_edges.RData")
 save(union_characters, file = "union_characters.RData")
 
 
+union_graph <- graph_from_data_frame(union_edges, directed = TRUE, vertices = union_characters)
+
+
+layout <- layout_with_fr(union_graph)
 ```
 
+For Plotting the legend
+
+```{r}
+color_vertices %>%
+  group_by(house, color) %>%
+  summarise(n = n()) %>%
+  filter(!is.na(color))
+
+colors_edges %>%
+  group_by(type, color) %>%
+  summarise(n = n()) %>%
+  filter(!is.na(color))
+
+```
+
+
+------------
+
+
+###Now Plotting the GOT family ties
+
+
+```{r}
+require(statnet)
+require(igraph)
+load("union_edges.RData")
+load("union_characters.RData")
+
+
+#Plotting the GOT family ties
+pdf("got_family_ties.pdf",height=15,width=25)
+plot(union_graph,
+     layout = layout,
+     vertex.label = gsub(" ", "\n", V(union_graph)$name),
+     vertex.shape = V(union_graph)$shape,
+     vertex.color = V(union_graph)$color, 
+     vertex.size = (V(union_graph)$popularity + 0.5) * 5, 
+     vertex.frame.color = "gray", 
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.8,
+     edge.arrow.size = 0.5,
+     edge.color = E(union_graph)$color,
+     edge.lty = E(union_graph)$lty)
+legend("topleft", legend = c(NA, "Node color:", as.character(color_vertices$house), NA, "Edge color:", as.character(colors_edges$type)), pch = 19,
+       col = c(NA, NA, color_vertices$color, NA, NA, colors_edges$color), pt.cex = 5, cex = 2, bty = "n", ncol = 1,
+       title = "") 
+legend("topleft", legend = "", cex = 4, bty = "n", ncol = 1,
+       title = "Game of Thrones Family Ties")
+
+
+
+```
+Node color shows the major houses, node size the character’s popularity and node shape their gender (square for male, circle for female). Edge color shows interaction type.
+
+As we can see, even with only a subset of characters from the Game of Thrones world, the network is already quite big. You can click on the image to open the pdf and zoom into specific parts of the plot and read the node labels/character names.
+
+
+What we can see right away is that there are only limited connections between houses and that the Greyjoys are the only house that has no ties to any of the others.
