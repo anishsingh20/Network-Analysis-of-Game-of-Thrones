@@ -712,36 +712,17 @@ names <- main.page %>% # feed `main.page` to the next step
   html_table(fill=T)
 
 #removing irrelevant columns
-for(i in seq(3,9))
+for(i in 1:7)
 {
-  names[,i]<-NULL
+  names$Appearances<-NULL
 }
-names$Appearances<-NULL
-names <- gsub("[[:upper:]]$", "", names)
-names <- gsub(" ", "_", names)
+#renaming the columns
+names(names)<-c("actor","name")
+names$actor<-NULL
+names<-names[names$name=="Character",]#removing a irrelevant row
 
-
-library(RCurl)
-
-for (name in names) {
-  url <- paste0("http://gameofthrones.wikia.com/wiki/", name)
-
-  web_page <- readLines(url)
-  left <- web_page[grep("pi-data-label pi-secondary-font", web_page)]
-  left <- gsub("\t\t<h3 class=\"pi-data-label pi-secondary-font\">|</h3>", "", left)
-  right <- web_page[grep("pi-data-value pi-font", web_page)]
-  right <- gsub("(.*title=\")(.*)(\">.*)", "\\2", right)
-  
-  df <- data.frame(name = name, attr = right, type = left)
-  
-  if (name == names[1]) {
-    df_final <- df
-  } else {
-    df_final <- rbind(df_final, df)
-  }
-}
-
-df_final_major <- df_final
+#final data frame with major character names
+df_final_major <- data.frame(names)
 
 
 ```
