@@ -334,9 +334,41 @@ graph_Arryn <- graph_from_data_frame(net_Arryn, directed = TRUE, vertices = char
 
 ```
 
-------------
+-
+
+-----------
 
 
+###Greyjoy House
+
+```{r}
+characters_Greyjoy <- characters %>%
+  filter(house == "House Greyjoy")
+
+net_Greyjoy <- net %>%
+  filter(source %in% characters_Greyjoy$name | target %in% characters_Greyjoy$name)
+
+net_Greyjoy$lty <- ifelse(net_Greyjoy$target == "Erik Ironmaker" | net_Greyjoy$source == "Erik Ironmaker", "dotted", "solid")
+net_Greyjoy$arrow <- ifelse(net_Greyjoy$type == "spouse", 3, 2)
+
+characters_Greyjoy <- characters %>%
+  filter(name %in% net_Greyjoy$source | name %in% net_Greyjoy$target) %>%
+  arrange(name)
+
+characters_Greyjoy[characters_Greyjoy$name == "Asha Greyjoy", "name"] <- "Asha (Yara) Greyjoy"
+net_Greyjoy[net_Greyjoy == "Asha Greyjoy"] <- "Asha (Yara) Greyjoy"
+
+graph_Greyjoy <- graph_from_data_frame(net_Greyjoy, directed = TRUE, vertices = characters_Greyjoy)
+
+
+```
+
+
+
+-----------------
+
+
+##Now Plotting a Big Graph with all the families 
 
 
 
@@ -367,3 +399,4 @@ union_edges2 <- rbind(union_edges[union_edges$type != "spouse", ],
 
 ```
 
+------------------
