@@ -924,3 +924,28 @@ characters$house2 <- ifelse(characters$house %in% c("House Targaryen", "House St
 
 ```
 
+
+```{r}
+net[net$source == "Rhaegar Targaryen" & net$target == "Aegon Targaryen son of Rhaegar", "type"] <- "father"
+
+characters[characters$name == "Aegon II", "name"] <- "Aegon II Targaryen"
+characters[characters$name == "Aegon II Targaryen", "house"] <- "House Targaryen"
+characters[characters$name == "Aegon Targaryen son of Jaehaerys I", "house"] <- "House Targaryen"
+characters[characters$name == "Marsella Weynwood", "name"] <- "Marsella Waynwood"
+
+
+#adding color to the Network edges
+library(RColorBrewer)
+
+#adding colors to the types i.e father,mother,spouse i.e relationships
+colors_edges <- with(net,
+                     data.frame(type = levels(as.factor(type)),
+                                color = I(brewer.pal(nlevels(as.factor(type)), name = 'Dark2'))))
+
+#Joining net and color_edges df by type
+net <- left_join(net, colors_edges, by = "type")
+
+
+
+```
+
