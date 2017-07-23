@@ -697,6 +697,7 @@ centr_eigen(union_graph_undir, directed = FALSE)$centralization
 
 ###Node degree
 
+Node Degree is defined as the number of adjacent edges a Node has.
 
 Node degree or degree centrality describes how central a node is in the network (i.e. how many in- and outgoing edges it has or to how many other nodes it is directly connected via one edge).
 
@@ -707,6 +708,15 @@ We can calculate the number of out- or ingoing edges of each node, or – as I a
 
 
 ```{r}
+union_graph_undir_degree <- igraph::degree(union_graph_undir, mode = "total")
 
+#standardized by number of nodes
+union_graph_undir_degree_std <- union_graph_undir_degree / (vcount(union_graph_undir) - 1)
+node_degree %
+  tibble::rownames_to_column()
+
+union_characters %
+  arrange(-degree) %>%
+  .[1:10, ]
 ```
 
