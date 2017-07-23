@@ -5,7 +5,8 @@ output:
   html_notebook: default
 ---
 ```{r, include=FALSE}
-characters <- data.frame(name = unique(c(as.character(net$source), as.character(net$target)))) %>%
+require(dplyr)
+characters <- data.frame(name=unique(c(as.character(net$source), as.character(net$target)))) %>%
   mutate(name = as.character(name)) %>%
   left_join(pred[, c(6, 8, 9, 15, 32:34)], by = "name")
 
@@ -178,6 +179,7 @@ characters$shape[is.na(characters$shape)] <- "none"
 The previous article consisted of the Data Processing,data scraping and preparing the data to be used in making Network DAGs.
 
 ```{r,warning=FALSE,message=FALSE}
+require(tidyverse)
 require(igraph)
 
 ```
@@ -655,3 +657,24 @@ As we can see, even with only a subset of characters from the Game of Thrones wo
 
 
 What we can see right away is that there are only limited connections between houses and that the Greyjoys are the only house that has no ties to any of the others.
+
+
+
+
+
+
+
+```{r}
+union_graph_undir <- as.undirected(union_graph, mode = "collapse")
+
+```
+
+
+------------------
+
+
+
+
+###Centrality
+
+Centrality describes the number of edges that are in- or outgoing to/from nodes. High centrality networks have few nodes with many connections, low centrality networks have many nodes with similar numbers of edges.
