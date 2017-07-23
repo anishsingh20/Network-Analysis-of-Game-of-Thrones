@@ -678,3 +678,35 @@ union_graph_undir <- as.undirected(union_graph, mode = "collapse")
 ###Centrality
 
 Centrality describes the number of edges that are in- or outgoing to/from nodes. High centrality networks have few nodes with many connections, low centrality networks have many nodes with similar numbers of edges.
+
+For the whole network, we can calculate centrality by degree 
+```{r}
+centr_degree(union_graph_undir, mode = "total")$centralization
+
+centr_clo(union_graph_undir, mode = "total")$centralization
+
+
+centr_eigen(union_graph_undir, directed = FALSE)$centralization
+
+
+```
+
+---------------
+
+
+
+###Node degree
+
+
+Node degree or degree centrality describes how central a node is in the network (i.e. how many in- and outgoing edges it has or to how many other nodes it is directly connected via one edge).
+
+
+“The degree of a vertex is its most basic structural property, the number of its adjacent edges.” From the help pages of degree()
+
+We can calculate the number of out- or ingoing edges of each node, or – as I am doing here – the sum of both.
+
+
+```{r}
+
+```
+
